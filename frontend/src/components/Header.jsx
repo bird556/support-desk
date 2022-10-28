@@ -24,11 +24,6 @@ function Header() {
     return <Spinner />;
   }
 
-  const name = () => {
-    const [first, last] = user.name.split(' ');
-    return `${first}. ${last.charAt(0)}`;
-  };
-
   return (
     <header className="header">
       <div className="logo">
@@ -37,7 +32,12 @@ function Header() {
       <ul>
         {user ? (
           <>
-            <p>{name()}</p>
+            <p>
+              {() => {
+                const [first, last] = user.name.split(' ');
+                return `${first}. ${last.charAt(0)}`;
+              }}
+            </p>
             <li>
               <button className="btn" onClick={onLogout}>
                 <FaSignOutAlt /> Logout

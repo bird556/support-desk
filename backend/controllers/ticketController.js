@@ -1,7 +1,5 @@
 const asyncHandler = require('express-async-handler');
 
-const jwt = require('jsonwebtoken');
-
 const Ticket = require('../models/ticketModel');
 
 // @Desc   Get user Tickets
