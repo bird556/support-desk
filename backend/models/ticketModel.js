@@ -7,6 +7,10 @@ const ticketSchema = mongoose.Schema(
       required: true,
       ref: 'User',
     },
+    name: {
+      type: String,
+      required: true,
+    },
     product: {
       type: String,
       required: [true, 'Please select a Product'],
