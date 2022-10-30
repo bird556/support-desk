@@ -4,16 +4,18 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { reset, logout } from '../features/auth/authSlice';
 import Spinner from './Spinner';
+import { toast } from 'react-toastify';
 
 function Header() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { user, isLoading } = useSelector((state) => state.auth);
+  const { user, isLoading, message } = useSelector((state) => state.auth);
   const onLogout = () => {
     dispatch(logout());
     dispatch(reset());
     navigate('/');
+    toast.success('Logged Out');
   };
 
   useEffect(() => {
