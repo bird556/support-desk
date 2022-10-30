@@ -3,9 +3,16 @@ import { FaQuestionCircle, FaTicketAlt } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 function Home() {
   const transition = { duration: 0.3, ease: 'easeInOut' };
+
+  const postVariants = {
+    initial: { y: 100, opacity: 0 },
+    enter: { y: 0, opacity: 1, transition },
+    exit: { y: -100, opacity: 0, transition },
+  };
+
   return (
     <>
-      <motion.div
+      {/* <motion.div
         initial={{
           // width: 0,
           height: 0,
@@ -25,6 +32,13 @@ function Home() {
           display: 'none',
           // transition,
         }}
+      > */}
+
+      <motion.div
+        initial="exit"
+        animate="enter"
+        exit="exit"
+        variants={postVariants}
       >
         <section className="heading">
           <h1>What do you need help with?</h1>

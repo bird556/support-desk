@@ -61,17 +61,22 @@ function Register() {
   if (isLoading) {
     return <Spinner />;
   }
+
+  const transition = { duration: 0.3, ease: 'easeInOut' };
+
+  const postVariants = {
+    initial: { x: 100, opacity: 0 },
+    enter: { x: 0, opacity: 1, transition },
+    exit: { x: -100, opacity: 0, transition },
+  };
+
   return (
     <>
       <motion.div
-        initial={{
-          width: 0,
-        }}
-        animate={{ width: '100%' }}
-        exit={{
-          x: window.innerWidth,
-          display: 'none',
-        }}
+        initial="exit"
+        animate="enter"
+        exit="exit"
+        variants={postVariants}
       >
         <section className="heading">
           <h1>
