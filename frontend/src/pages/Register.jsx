@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { register, reset } from '../features/auth/authSlice';
 import { useNavigate } from 'react-router-dom';
 import Spinner from '../components/Spinner';
+import { motion } from 'framer-motion';
 function Register() {
   const [formData, setFormData] = useState({
     name: '',
@@ -60,69 +61,85 @@ function Register() {
   if (isLoading) {
     return <Spinner />;
   }
+
+  const transition = { duration: 0.3, ease: 'easeInOut' };
+
+  const postVariants = {
+    initial: { x: 100, opacity: 0 },
+    enter: { x: 0, opacity: 1, transition },
+    exit: { x: -100, opacity: 0, transition },
+  };
+
   return (
     <>
-      <section className="heading">
-        <h1>
-          <FaUser /> Register
-        </h1>
-        <p>Please create an account</p>
-      </section>
-      <section className="form">
-        <form onSubmit={onSubmit}>
-          <div className="form-group">
-            <input
-              type="text"
-              className="form-control"
-              name="name"
-              id="name"
-              value={name}
-              onChange={onChange}
-              placeholder="Enter your name"
-              required
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="email"
-              className="form-control"
-              name="email"
-              id="email"
-              value={email}
-              onChange={onChange}
-              placeholder="Enter your email"
-              required
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="password"
-              className="form-control"
-              name="password"
-              id="password"
-              value={password}
-              onChange={onChange}
-              placeholder="Enter a password"
-              required
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="password"
-              className="form-control"
-              name="password2"
-              id="password2"
-              value={password2}
-              onChange={onChange}
-              placeholder="Confirm password"
-              required
-            />
-          </div>
-          <div className="form-group">
-            <button className="btn btn-block">Submit</button>
-          </div>
-        </form>
-      </section>
+      <motion.div
+        initial="exit"
+        animate="enter"
+        exit="exit"
+        variants={postVariants}
+      >
+        <section className="heading">
+          <h1>
+            <FaUser /> Register
+          </h1>
+          <p>Please create an account</p>
+        </section>
+        <section className="form">
+          <form onSubmit={onSubmit}>
+            <div className="form-group">
+              <input
+                type="text"
+                className="form-control"
+                name="name"
+                id="name"
+                value={name}
+                onChange={onChange}
+                placeholder="Enter your name"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <input
+                type="email"
+                className="form-control"
+                name="email"
+                id="email"
+                value={email}
+                onChange={onChange}
+                placeholder="Enter your email"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <input
+                type="password"
+                className="form-control"
+                name="password"
+                id="password"
+                value={password}
+                onChange={onChange}
+                placeholder="Enter a password"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <input
+                type="password"
+                className="form-control"
+                name="password2"
+                id="password2"
+                value={password2}
+                onChange={onChange}
+                placeholder="Confirm password"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <button className="btn btn-block">Submit</button>
+            </div>
+          </form>
+        </section>
+      </motion.div>
     </>
   );
 }
