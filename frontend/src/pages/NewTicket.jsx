@@ -1,13 +1,27 @@
 import { motion } from 'framer-motion';
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import BackButton from '../components/BackButton';
+import Spinner from '../components/Spinner';
+import { createTicket, reset } from '../features/tickets/ticketSlice';
 
 function NewTicket() {
+  const { isSuccess, isError, message, isLoading } = useSelector(
+    (state) => state.ticket
+  );
+
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
   const { user } = useSelector((state) => state.auth);
+
   const name = user.name;
   const email = user.email;
   const [product, setProduct] = useState('');
-  const [desc, setDesc] = useState('');
+  const [description, setDescription] = useState('');
 
   const transition = { duration: 0.3, ease: 'easeInOut' };
 
@@ -16,9 +30,30 @@ function NewTicket() {
     enter: { y: 0, opacity: 1, transition },
     exit: { y: -100, opacity: 0, transition },
   };
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+    if (isSuccess) {
+      dispatch(reset());
+      toast.success('Ticket created.');
+      navigate('/tickets');
+    }
+
+    dispatch(reset());
+  }, [isError, isSuccess, message, navigate, dispatch]);
+
   const onSubmit = (e) => {
     e.preventDefault();
+
+    dispatch(createTicket({ product, description }));
   };
+
+  if (isLoading) {
+    return <Spinner />;
+  }
+
   return (
     <>
       <motion.div
@@ -27,6 +62,7 @@ function NewTicket() {
         exit="exit"
         variants={postVariants}
       >
+        <BackButton url={'/'} />
         <section className="heading">
           <h1>Create New Ticket</h1>
           <p>Please fill out form below</p>
@@ -62,6 +98,8 @@ function NewTicket() {
                 <option value="MacBook">MacBook</option>
                 <option value="iPhone">iPhone</option>
                 <option value="Samsung">Samsung</option>
+                <option value="Geforce">Geforce</option>
+                <option value="Logitech">Logitech</option>
               </select>
             </div>
             <div className="form-group">
@@ -71,9 +109,9 @@ function NewTicket() {
                 id="description"
                 className="form-control"
                 placeholder="Description"
-                value={desc}
+                value={description}
                 onChange={(e) => {
-                  setDesc(e.target.value);
+                  setDescription(e.target.value);
                 }}
               ></textarea>
             </div>

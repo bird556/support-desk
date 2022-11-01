@@ -10,11 +10,11 @@ function Header() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { user, isLoading, message } = useSelector((state) => state.auth);
+  const { user, isLoading } = useSelector((state) => state.auth);
   const onLogout = () => {
+    navigate('/');
     dispatch(logout());
     dispatch(reset());
-    navigate('/');
     toast.success('Logged Out');
   };
 

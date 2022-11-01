@@ -5,8 +5,9 @@ import Register from '../pages/Register';
 
 import { AnimatePresence } from 'framer-motion';
 import NewTicket from '../pages/NewTicket';
-import ViewTicket from '../pages/ViewTicket';
 import PrivateRoute from '../components/PrivateRoute';
+import Tickets from '../pages/Tickets';
+import ViewTicket from '../pages/ViewTicket';
 function AnimatedRoutes() {
   const location = useLocation();
 
@@ -19,7 +20,12 @@ function AnimatedRoutes() {
         <Route path="/new-ticket" element={<PrivateRoute />}>
           <Route path="/new-ticket" element={<NewTicket />} />
         </Route>
-        <Route path="/tickets" element={<ViewTicket />} />
+        <Route path="/tickets" element={<PrivateRoute />}>
+          <Route path="/tickets" element={<Tickets />} />
+        </Route>
+        <Route path="/ticket/:_id" element={<PrivateRoute />}>
+          <Route path="/ticket/:_id" element={<ViewTicket />} />
+        </Route>
       </Routes>
     </AnimatePresence>
   );
