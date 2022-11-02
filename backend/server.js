@@ -11,14 +11,9 @@ const connectDB = require('./config/db');
 connectDB();
 
 app.use(express.json());
-
 app.use(express.urlencoded({ extended: false }));
 
 app.listen(PORT, () => console.log(`Server started on Port ${PORT}`));
-
-app.get('/', (req, res) => {
-  res.json({ message: 'Hello Postman' });
-});
 
 // Routes
 app.use('/api/users', require('./routes/userRoutes'));
