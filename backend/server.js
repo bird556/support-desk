@@ -18,6 +18,7 @@ app.listen(PORT, () => console.log(`Server started on Port ${PORT}`));
 // Routes
 app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/tickets', require('./routes/ticketRoutes'));
+
 // Serve Frontend
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../frontend/build')));
