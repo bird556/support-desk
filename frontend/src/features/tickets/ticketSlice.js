@@ -3,8 +3,6 @@ import ticketService from './ticketService';
 
 // Get user from LocalStorage
 
-const user = JSON.parse(localStorage.getItem('user'));
-
 const initialState = {
   //   user: null ? null : user,
   tickets: [],
@@ -75,6 +73,26 @@ export const singleTicket = createAsyncThunk(
   }
 );
 
+// Close User Ticket
+export const closeTicket = createAsyncThunk(
+  'tickets/close',
+  async (ticketId, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await ticketService.closeTicket(ticketId, token);
+    } catch (error) {
+      let message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const ticketSlice = createSlice({
   name: 'ticket',
   initialState,
@@ -119,6 +137,21 @@ export const ticketSlice = createSlice({
         state.ticket = action.payload;
       })
       .addCase(singleTicket.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(closeTicket.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(closeTicket.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.tickets.map((ticket) =>
+          ticket._id === action.payload._id ? (ticket.status = 'close') : ticket
+        );
+      })
+      .addCase(closeTicket.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

@@ -2,7 +2,6 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
-
 import { AnimatePresence } from 'framer-motion';
 import NewTicket from '../pages/NewTicket';
 import PrivateRoute from '../components/PrivateRoute';
@@ -23,8 +22,8 @@ function AnimatedRoutes() {
         <Route path="/tickets" element={<PrivateRoute />}>
           <Route path="/tickets" element={<Tickets />} />
         </Route>
-        <Route path="/ticket/:_id" element={<PrivateRoute />}>
-          <Route path="/ticket/:_id" element={<ViewTicket />} />
+        <Route path="/ticket/:ticketId" element={<PrivateRoute />}>
+          <Route path="/ticket/:ticketId" element={<ViewTicket />} />
         </Route>
       </Routes>
     </AnimatePresence>

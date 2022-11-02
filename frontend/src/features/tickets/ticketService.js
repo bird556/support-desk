@@ -13,10 +13,6 @@ const createTicket = async (ticketData, token) => {
 
   const response = await axios.post(API_URL, ticketData, config);
 
-  //   if (response.data) {
-  //     localStorage.setItem('user', JSON.stringify(response.data));
-  //   }
-
   return response.data;
 };
 
@@ -34,7 +30,7 @@ const getTickets = async (token) => {
   return response.data;
 };
 
-// Get User Tickets
+// Get Single User Ticket
 
 const getSingleTicket = async (ticketId, token) => {
   const config = {
@@ -48,10 +44,31 @@ const getSingleTicket = async (ticketId, token) => {
   return response.data;
 };
 
+// Close User Ticket
+
+const closeTicket = async (ticketId, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.put(
+    API_URL + ticketId,
+    {
+      status: 'closed',
+    },
+    config
+  );
+
+  return response.data;
+};
+
 const ticketService = {
   createTicket,
   getTickets,
   getSingleTicket,
+  closeTicket,
 };
 
 export default ticketService;
